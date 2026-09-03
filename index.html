@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para meu ícaro ♡</title>
+<style>
+  body {
+    background: #0a0a12;
+    color: white;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    overflow: hidden;
+    margin:0;
+  }
+  .stars {
+    position: fixed;
+    width: 100%; height: 100%;
+    background: transparent;
+  }
+  .star {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: white;
+    animation: twinkle 2s infinite;
+  }
+  @keyframes twinkle { 0%,100%{opacity:0.2} 50%{opacity:1} }
+  .box {
+    position: relative;
+    margin-top: 25vh;
+    padding: 20px;
+  }
+  h1 { color: #ffccff; text-shadow: 0 0 10px #ff88ff; }
+  button {
+    background: white; color: black;
+    border: none; padding: 12px 24px;
+    font-size: 18px; margin-top: 20px;
+    cursor: pointer;
+    box-shadow: 0 0 10px white;
+  }
+  button:hover { transform: scale(1.05); }
+  #carta {
+    display: none;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid #ffccff;
+    margin: 20px; padding: 20px;
+    border-radius: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+<div class="box">
+  <h1>Você encontrou um Asriel selvagem!</h1>
+  <p>ele parece querer um abraço...</p>
+  <button onclick="abracar()">* ABRAÇAR</button>
+  
+  <div id="carta">
+    <h2>Para meu Crucru ♡</h2>
+    <p>Você é meu Asriel, meu bodezinho favorito.</p>
+    <p>Obrigada por ser tão fofo comigo, mesmo sendo um deus da hyperdeath :3</p>
+    <p>Eu te amo muito mais do que você imagina.</p>
+    <p style="margin-top:20px; color:#ffccff">Sua Frisk/Chara para sempre ♡</p>
+    <p style="margin-top:30px">Você quer ficar comigo pra sempre?<br><br>
+    <button onclick="alert('Você já é meu pra sempre! ♡')">SIM ♡</button>
+    </p>
+  </div>
+</div>
+
+<script>
+  // estrelinhas
+  const container = document.getElementById('stars');
+  for(let i=0;i<100;i++){
+    let s = document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=Math.random()*2+'s';
+    container.appendChild(s);
+  }
+  function abracar(){
+    document.getElementById('carta').style.display='block';
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+</script>
+</body>
+  </html>
