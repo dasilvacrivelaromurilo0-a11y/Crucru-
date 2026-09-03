@@ -5,30 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para você ♡</title>
 <style>
-body{margin:0;background:#0f0a1a;color:white;font-family:Arial,sans-serif;overflow:hidden;min-height:100vh;display:flex;align-items:center;justify-content:center;transition:background 4s ease}
-body.dark-world{background:#000000}
-#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+body{margin:0;background:#0f0a1a;color:white;font-family:Arial,sans-serif;overflow:hidden;min-height:100vh;display:flex;align-items:center;justify-content:center;transition:background 3s}
+body.dark-world{background:#000}
+#stars{position:fixed;inset:0;z-index:0}
 .star{position:absolute;background:white;border-radius:50%;box-shadow:0 0 8px white;animation:cair 3s linear infinite}
 @keyframes cair{0%{transform:translateY(-20px);opacity:0}15%{opacity:1}100%{transform:translateY(110vh) translateX(50px);opacity:0}}
-.box{position:relative;z-index:10;background:rgba(30,20,45,.9);border:1px solid #ffb4ff;padding:30px 20px;border-radius:20px;max-width:350px;width:85%;text-align:center;box-shadow:0 0 40px rgba(255,150,255,.4);transition:all 2s;overflow:hidden}
+.box{position:relative;z-index:10;background:rgba(30,20,45,.9);border:1px solid #ffb4ff;padding:30px 20px;border-radius:20px;max-width:350px;width:85%;text-align:center;box-shadow:0 0 40px rgba(255,150,255,.4);overflow:hidden;transition:all 1s}
 .crack{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:20;display:none}
 .crack.ativo{display:block}
-.crack svg{width:100%;height:100%}
 .crack-line{stroke:#c8a0ff;stroke-width:2;fill:none;filter:drop-shadow(0 0 6px #8a2be2);stroke-dasharray:500;stroke-dashoffset:500;animation:rachadura 1.2s ease-out forwards}
-.crack-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:100%;background:linear-gradient(to bottom, transparent, #8a2be2, transparent);opacity:0;transition:all 1s}
+.crack-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:100%;background:#8a2be2;opacity:0;transition:all 1s}
 .crack.ativo .crack-glow{width:4px;opacity:1;box-shadow:0 0 30px #8a2be2}
 .box.rachado{animation:tremer 0.4s ease 3, separar 1s ease 1.5s forwards}
-@keyframes rachadura{to{stroke-dashoffset:0}} @keyframes tremer{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}} @keyframes separar{0%{clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%)}100%{clip-path:polygon(0 0, 45% 0, 45% 100%, 0 100%);transform:translateX(-30px) rotate(-5deg);opacity:0.1}}
-
+@keyframes rachadura{to{stroke-dashoffset:0}} @keyframes tremer{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}} @keyframes separar{to{transform:translateX(-30px) rotate(-5deg);opacity:0.1}}
 .botoes{position:relative;height:70px;margin-top:20px}
 button{padding:14px 28px;border:none;border-radius:30px;font-weight:bold;font-size:16px;cursor:pointer}
 #sim{background:#ffc6ff;color:#2a0a2a;position:absolute;left:50%;transform:translateX(-80px);z-index:2}
-#nao{background:#2a2a3a;color:white;border:1px solid #666;position:absolute;left:50%;transform:translateX(20px);transition:left .65s cubic-bezier(.68,-.55,.27,1.55),top .65s cubic-bezier(.68,-.55,.27,1.55)}
-#proceder{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:30;background:black;color:#c8a0ff;border:1px solid #8a2be2;padding:10px 25px;border-radius:10px;font-family:monospace;letter-spacing:3px;font-size:16px;display:none;box-shadow:0 0 20px #8a2be2;animation:pisca 0.8s infinite}
+#nao{background:#2a2a3a;color:white;border:1px solid #666;position:absolute;left:50%;transform:translateX(20px);transition:left .6s cubic-bezier(.68,-.55,.27,1.55),top .6s cubic-bezier(.68,-.55,.27,1.55)}
+#proceder{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:30;background:black;color:#c8a0ff;border:1px solid #8a2be2;padding:10px 25px;border-radius:10px;font-family:monospace;letter-spacing:3px;display:none;box-shadow:0 0 20px #8a2be2;animation:pisca 0.8s infinite}
 @keyframes pisca{0%,50%{opacity:1}51%,100%{opacity:0.3}}
-#proceder.mostrar{display:block;animation:procederAparece 0.5s ease, pisca 0.8s infinite 0.5s}
-@keyframes procederAparece{0%{transform:translate(-50%,-50%) scale(0);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
-
+#proceder.mostrar{display:block}
 #final{display:none}
 .confete{position:fixed;top:-10px;width:10px;height:14px;animation:confeteCai 3s linear forwards;z-index:20}
 @keyframes confeteCai{to{transform:translateY(100vh) rotate(720deg)}}
@@ -36,27 +32,27 @@ button{padding:14px 28px;border:none;border-radius:30px;font-weight:bold;font-si
 .person{position:absolute;bottom:10px;left:-140px;width:90px;text-align:center;animation:andar 12s linear forwards,sumir 3s ease-in forwards;animation-delay:var(--d),11s}
 .person img{width:85px;image-rendering:pixelated;filter:drop-shadow(0 0 8px rgba(255,255,255,.6));animation:quica .32s infinite alternate}
 @keyframes andar{0%{left:-140px}100%{left:115vw}} @keyframes quica{0%{transform:translateY(0)}100%{transform:translateY(-8px)}} @keyframes sumir{0%{opacity:1}100%{opacity:0}}
-.nome{font-size:11px;font-weight:bold;margin-top:4px;text-shadow:0 0 5px black}
-
-#darkFountain{position:fixed;left:50%;bottom:-100px;transform:translateX(-50%);width:60px;height:0;z-index:5;pointer-events:none;display:none;opacity:0}
-#darkFountain.ativa{display:block;opacity:1;animation:fountainSubir 4s ease-out forwards}
-.fountain-beam{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:50px;height:100%;background:linear-gradient(to top, #000 0%, #1a0a3a 20%, #8a2be2 70%, #c8a0ff 100%);box-shadow:0 0 40px #8a2be2, 0 0 80px #5a1a8a}
-.fountain-beam::before{content:'';position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:120px;height:40px;background:radial-gradient(ellipse, #e0c0ff 0%, #8a2be2 30%, transparent 70%);animation:pulsar 0.8s infinite alternate}
-.fountain-particles{position:absolute;bottom:0;left:50%;width:200px;transform:translateX(-50%);height:100vh}
-.particle{position:absolute;bottom:0;width:3px;height:3px;background:#c8a0ff;box-shadow:0 0 6px #8a2be2;animation:subirParticula linear infinite}
-@keyframes fountainSubir{0%{height:0}100%{height:110vh}} @keyframes pulsar{0%{opacity:0.6;transform:translateX(-50%) scale(0.8)}100%{opacity:1;transform:translateX(-50%) scale(1.2)}} @keyframes subirParticula{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-100vh) translateX(var(--x));opacity:0}}
+#darkFountain{position:fixed;inset:0;z-index:5;display:none;place-items:center;background:black}
+#darkFountain.ativa{display:grid;animation:fadeIn 1s ease}
+#darkFountain img{width:100vw;height:100vh;object-fit:contain;max-width:600px;max-height:90vh;filter:drop-shadow(0 0 30px #8a2be2)}
 #darkText{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:15;color:#c8a0ff;font-size:22px;font-weight:bold;text-align:center;display:none;text-shadow:0 0 20px #8a2be2}
 #darkText.mostrar{display:block;animation:textoAparece 3s ease forwards}
-@keyframes textoAparece{0%{opacity:0}100%{opacity:1}}
+@keyframes textoAparece{0%{opacity:0}100%{opacity:1}} @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 <body>
 <div id="stars"></div>
-<div id="darkFountain"><div class="fountain-beam"></div><div class="fountain-particles" id="particles"></div></div>
+
+<audio id="darkAudio" preload="auto" src="proceed.mp3"></audio>
+
+<div id="darkFountain">
+  <img src="fountain.gif" alt="dark fountain">
+</div>
+
 <div id="darkText">A DARK FOUNTAIN SURGIU...<br><span style="font-size:14px;color:white">Você rachou a realidade...</span><br><button onclick="location.reload()" style="position:static;transform:none;margin-top:15px;background:white;color:black;padding:10px 20px;border-radius:20px">Tentar de novo ♡</button></div>
 
 <div class="box" id="mainBox">
-<div class="crack" id="crack"><div class="crack-glow"></div><svg viewBox="0 0 350 250" preserveAspectRatio="none"><path class="crack-line" d="M175 0 L170 20 L180 40 L165 60 L180 80 L170 100 L185 120 L175 140 L180 160 L165 180 L175 200 L170 220 L175 250" /><path class="crack-line" style="animation-delay:0.2s;opacity:0.6" d="M175 60 L150 70 L160 90 M175 120 L200 130 L190 150 M175 180 L145 190" /></svg></div>
+<div class="crack" id="crack"><div class="crack-glow"></div><svg viewBox="0 0 350 250" preserveAspectRatio="none"><path class="crack-line" d="M175 0 L170 20 L180 40 L165 60 L180 80 L170 100 L185 120 L175 140 L180 160 L165 180 L175 200 L170 220 L175 250" /></svg></div>
 <h1>Oi amor ♡</h1>
 <div style="font-size:18px;margin:12px 0 18px">Você vai ficar comigo para sempre? 🥺</div>
 <div class="botoes" id="areaBotoes">
@@ -68,15 +64,18 @@ button{padding:14px 28px;border:none;border-radius:30px;font-weight:bold;font-si
 </div>
 
 <div class="trio" id="trio">
-<div class="person" style="--d:0s"><img src="Kris.png"><div class="nome" style="color:#7dd3fc">KRIS</div></div>
-<div class="person" style="--d:1.2s"><img src="Ralsei.png"><div class="nome" style="color:#86efac">RALSEI</div></div>
-<div class="person" style="--d:2.4s"><img src="Susie.png"><div class="nome" style="color:#d8b4fe">SUSIE</div></div>
+<div class="person" style="--d:0s"><img src="Kris.png"></div>
+<div class="person" style="--d:1.2s"><img src="Ralsei.png"></div>
+<div class="person" style="--d:2.4s"><img src="Susie.png"></div>
 </div>
 
 <script>
 const starsContainer=document.getElementById('stars');
 for(let i=0;i<110;i++){let s=document.createElement('div');s.className='star';let sz=Math.random()*3+1.5;s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=Math.random()*100+'vw';s.style.animationDuration=(Math.random()*2+2)+'s';s.style.animationDelay=Math.random()*2.5+'s';starsContainer.appendChild(s)}
-let naoCliques=0; let darkModeAtivo=false; const btnNao=document.getElementById('nao'); const procederEl=document.getElementById('proceder');
+let naoCliques=0; let darkModeAtivo=false;
+const btnNao=document.getElementById('nao');
+const procederEl=document.getElementById('proceder');
+const audioEl=document.getElementById('darkAudio');
 
 function ativarDarkWorld(){
  if(darkModeAtivo) return; darkModeAtivo=true;
@@ -84,40 +83,29 @@ function ativarDarkWorld(){
  document.body.classList.add('dark-world');
  document.getElementById('crack').classList.add('ativo');
  document.getElementById('mainBox').classList.add('rachado');
- document.querySelectorAll('.star').forEach((e,i)=>{setTimeout(()=>{e.style.animationPlayState='paused'; e.style.opacity='0.1'}, i*30)});
- const fountain=document.getElementById('darkFountain'); fountain.classList.add('ativa');
- const particlesDiv=document.getElementById('particles');
- for(let i=0;i<60;i++){let p=document.createElement('div');p.className='particle';p.style.left=(Math.random()*100)+'%';p.style.setProperty('--x',(Math.random()*200-100)+'px');p.style.animationDuration=(Math.random()*2+2)+'s';p.style.animationDelay=Math.random()+'s';particlesDiv.appendChild(p);}
- setTimeout(()=>{document.getElementById('darkText').classList.add('mostrar')},3800);
+ document.querySelectorAll('.star').forEach((e,i)=>{setTimeout(()=>{e.style.animationPlayState='paused'; e.style.opacity='0.1'}, i*20)});
+ audioEl.volume = 0.8;
+ audioEl.play().catch(()=>{});
+ document.getElementById('darkFountain').classList.add('ativa');
+ setTimeout(()=>{document.getElementById('darkText').classList.add('mostrar')},2500);
  btnNao.style.display='none';
 }
-
 function fugir(e){
  e.preventDefault(); if(darkModeAtivo) return;
  naoCliques++;
- 
- if(naoCliques === 9){
-   // MOSTRA PROCEDER? NA 9ª VEZ
+ if(naoCliques===9){
    procederEl.classList.add('mostrar');
-   btnNao.style.transform = 'scale(0.8)';
-   btnNao.style.opacity = '0.5';
-   document.getElementById('mainBox').style.borderColor = '#8a2be2';
-   document.getElementById('mainBox').style.boxShadow = '0 0 40px #8a2be2';
-   setTimeout(()=>{procederEl.classList.remove('mostrar')}, 3000);
+   btnNao.style.opacity='0.4';
+   document.getElementById('mainBox').style.borderColor='#8a2be2';
+   setTimeout(()=>procederEl.classList.remove('mostrar'),3000);
  }
- 
- if(naoCliques>5){document.body.style.background=`rgb(${15-naoCliques}, ${10-naoCliques}, ${26-naoCliques*2})`}
  if(naoCliques>=10){ativarDarkWorld(); return;}
  if(!btnNao.dataset.fixou){let r=btnNao.getBoundingClientRect();btnNao.style.position='fixed';btnNao.style.left=r.left+'px';btnNao.style.top=r.top+'px';btnNao.style.transform='none';btnNao.dataset.fixou='1';btnNao.offsetHeight}
  btnNao.style.left=Math.random()*(innerWidth-btnNao.offsetWidth-15)+5+'px';
  btnNao.style.top=Math.random()*(innerHeight-btnNao.offsetHeight-15)+5+'px';
 }
-
-btnNao.addEventListener('mouseenter',fugir);
-btnNao.addEventListener('click',fugir);
-btnNao.addEventListener('touchstart',fugir,{passive:false});
+btnNao.addEventListener('mouseenter',fugir);btnNao.addEventListener('click',fugir);btnNao.addEventListener('touchstart',fugir,{passive:false});
 procederEl.addEventListener('click', ativarDarkWorld);
-
 document.getElementById('sim').addEventListener('click',()=>{
  document.getElementById('areaBotoes').style.display='none';
  document.getElementById('final').style.display='block';
