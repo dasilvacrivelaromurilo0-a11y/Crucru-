@@ -7,55 +7,54 @@
 <style>
 body{margin:0;background:#0f0a1a;color:white;font-family:Arial,sans-serif;overflow:hidden;min-height:100vh;display:flex;align-items:center;justify-content:center}
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
-.star{position:absolute;background:white;border-radius:50%;animation:cair 3s linear infinite}
-@keyframes cair{0%{transform:translateY(-20px);opacity:0}20%{opacity:1}100%{transform:translateY(110vh) translateX(60px);opacity:0}}
+.star{position:absolute;background:white;border-radius:50%;box-shadow:0 0 8px white;animation:cair 3s linear infinite}
+@keyframes cair{0%{transform:translateY(-20px);opacity:0}15%{opacity:1}100%{transform:translateY(110vh) translateX(50px);opacity:0}}
 .box{position:relative;z-index:5;background:rgba(30,20,45,.9);border:1px solid #ffb4ff;padding:30px 20px;border-radius:20px;max-width:350px;width:85%;text-align:center;box-shadow:0 0 40px rgba(255,150,255,.4)}
 .botoes{position:relative;height:70px;margin-top:20px}
 button{padding:14px 28px;border:none;border-radius:30px;font-weight:bold;font-size:16px;cursor:pointer}
-#sim{background:#ffc6ff;color:#2a0a2a;position:absolute;left:50%;transform:translateX(-80px)}
-#nao{background:#2a2a3a;color:white;border:1px solid #666;position:absolute;left:50%;transform:translateX(20px);transition:left .6s cubic-bezier(.68,-.55,.27,1.55),top .6s cubic-bezier(.68,-.55,.27,1.55)}
+#sim{background:#ffc6ff;color:#2a0a2a;position:absolute;left:50%;transform:translateX(-80px);z-index:2}
+#nao{background:#2a2a3a;color:white;border:1px solid #666;position:absolute;left:50%;transform:translateX(20px);transition:left .65s cubic-bezier(.68,-.55,.27,1.55),top .65s cubic-bezier(.68,-.55,.27,1.55);will-change:left,top}
 #final{display:none}
 .confete{position:fixed;top:-10px;width:10px;height:14px;animation:confeteCai 3s linear forwards;z-index:20}
 @keyframes confeteCai{to{transform:translateY(100vh) rotate(720deg)}}
-.deltarune{position:fixed;bottom:5px;left:0;width:100%;height:120px;z-index:10;display:none;pointer-events:none}
-.char{position:absolute;bottom:0;left:-120px;width:80px;text-align:center;animation:andar 10s linear forwards,fade 2s forwards;animation-delay:var(--d),9s}
-.char div{width:64px;height:64px;margin:0 auto;image-rendering:pixelated;animation:pulo .3s infinite alternate}
-@keyframes andar{to{left:110vw}} @keyframes pulo{to{transform:translateY(-6px)}} @keyframes fade{to{opacity:0}}
-/* Pixel art puro sem imagem */
-.kris{background:linear-gradient(#6d4c2e,#6d4c2e);box-shadow:0 0 0 2px black, inset 0 -20px 0 #3b6cf0, inset 0 -35px 0 #ffeb3b}
-.ralsei{background:#fff;box-shadow:0 0 0 2px black, inset 0 -30px 0 #4ade80, inset 0 -18px 0 #ff6eb4}
-.susie{background:#c084fc;box-shadow:0 0 0 2px black, inset 0 -20px 0 #facc15, inset 0 -40px 0 #4c1d95}
+.trio{position:fixed;bottom:0;left:0;width:100%;height:150px;z-index:12;pointer-events:none;display:none}
+.person{position:absolute;bottom:10px;left:-140px;width:90px;text-align:center;animation:andar 12s linear forwards,sumir 3s ease-in forwards;animation-delay:var(--d),11s}
+.person img{width:85px;image-rendering:pixelated;filter:drop-shadow(0 0 8px rgba(255,255,255,.6));animation:quica .32s infinite alternate}
+@keyframes andar{0%{left:-140px}100%{left:115vw}}
+@keyframes quica{0%{transform:translateY(0)}100%{transform:translateY(-8px)}}
+@keyframes sumir{0%{opacity:1}100%{opacity:0}}
+.nome{font-size:11px;font-weight:bold;margin-top:4px;text-shadow:0 0 5px black;letter-spacing:1px}
 </style>
 </head>
 <body>
 <div id="stars"></div>
 <div class="box">
 <h1>Oi amor ♡</h1>
-<div>Você vai ficar comigo para sempre? 🥺</div>
-<div class="botoes">
+<div style="font-size:18px;margin:12px 0 18px">Você vai ficar comigo para sempre? 🥺</div>
+<div class="botoes" id="areaBotoes">
 <button id="sim">SIM ♡</button>
 <button id="nao">NÃO</button>
 </div>
-<div id="final"><h1>EU TE AMO!!! 💜</h1><p>O trio aprovou!</p></div>
+<div id="final"><h1 style="font-size:28px">EU TE AMO!!! 💜</h1><p>O trio aprovou!</p></div>
 </div>
 
-<div class="deltarune" id="trio">
-<div class="char" style="--d:0s"><div class="kris"></div><span style="color:#60a5fa">KRIS</span></div>
-<div class="char" style="--d:0.9s"><div class="ralsei"></div><span style="color:#86efac">RALSEI</span></div>
-<div class="char" style="--d:1.8s"><div class="susie"></div><span style="color:#d8b4fe">SUSIE</span></div>
+<div class="trio" id="trio">
+<div class="person" style="--d:0s"><img src="Kris.png"><div class="nome" style="color:#7dd3fc">KRIS</div></div>
+<div class="person" style="--d:1.2s"><img src="Ralsei.png"><div class="nome" style="color:#86efac">RALSEI</div></div>
+<div class="person" style="--d:2.4s"><img src="Susie.png"><div class="nome" style="color:#d8b4fe">SUSIE</div></div>
 </div>
 
 <script>
-for(let i=0;i<100;i++){let s=document.createElement('div');s.className='star';let sz=Math.random()*3+1;s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=Math.random()*100+'vw';s.style.animationDuration=(Math.random()*2+2)+'s';s.style.animationDelay=Math.random()*2+'s';document.getElementById('stars').appendChild(s)}
-const nao=document.getElementById('nao');let saiu=false;
-function fugir(e){e.preventDefault();if(!saiu){let r=nao.getBoundingClientRect();nao.style.position='fixed';nao.style.left=r.left+'px';nao.style.top=r.top+'px';nao.style.transform='none';saiu=true}nao.style.left=Math.random()*(innerWidth-100)+'px';nao.style.top=Math.random()*(innerHeight-60)+'px'}
-nao.addEventListener('mouseenter',fugir);nao.addEventListener('click',fugir);nao.addEventListener('touchstart',fugir,{passive:false});
-document.getElementById('sim').onclick=()=>{
-document.querySelector('.botoes').style.display='none';
+for(let i=0;i<110;i++){let s=document.createElement('div');s.className='star';let sz=Math.random()*3+1.5;s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=Math.random()*100+'vw';s.style.animationDuration=(Math.random()*2+2)+'s';s.style.animationDelay=Math.random()*2.5+'s';document.getElementById('stars').appendChild(s)}
+const btnNao=document.getElementById('nao');let jaFixou=false;
+function fugir(e){e.preventDefault();if(!jaFixou){let r=btnNao.getBoundingClientRect();btnNao.style.position='fixed';btnNao.style.left=r.left+'px';btnNao.style.top=r.top+'px';btnNao.style.transform='none';jaFixou=true;btnNao.offsetHeight}btnNao.style.left=Math.random()*(innerWidth-btnNao.offsetWidth-15)+5+'px';btnNao.style.top=Math.random()*(innerHeight-btnNao.offsetHeight-15)+5+'px'}
+btnNao.addEventListener('mouseenter',fugir);btnNao.addEventListener('click',fugir);btnNao.addEventListener('touchstart',fugir,{passive:false});
+document.getElementById('sim').addEventListener('click',()=>{
+document.getElementById('areaBotoes').style.display='none';
 document.getElementById('final').style.display='block';
-for(let i=0;i<150;i++){let c=document.createElement('div');c.className='confete';c.style.left=Math.random()*100+'vw';c.style.background=['#ffc6ff','#fff','#a78bfa'][i%3];c.style.animationDelay=Math.random()+'s';document.body.appendChild(c)}
+for(let i=0;i<180;i++){let c=document.createElement('div');c.className='confete';c.style.left=Math.random()*100+'vw';c.style.background=['#ffc6ff','#ff8fab','#fff','#a78bfa'][Math.floor(Math.random()*4)];c.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),3500)}
 document.getElementById('trio').style.display='block';
-}
+});
 </script>
 </body>
 </html>
