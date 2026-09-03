@@ -16,8 +16,11 @@ body.dark-world{background:#000}
 .crack-line{stroke:#c8a0ff;stroke-width:2;fill:none;filter:drop-shadow(0 0 6px #8a2be2);stroke-dasharray:500;stroke-dashoffset:500;animation:rachadura 1.2s ease-out forwards}
 .crack-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:100%;background:#8a2be2;opacity:0;transition:all 1s}
 .crack.ativo .crack-glow{width:4px;opacity:1;box-shadow:0 0 30px #8a2be2}
-.box.rachado{animation:tremer 0.4s ease 3, separar 1s ease 1.5s forwards}
-@keyframes rachadura{to{stroke-dashoffset:0}} @keyframes tremer{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}} @keyframes separar{to{transform:translateX(-30px) rotate(-5deg);opacity:0.1}}
+.box.rachado{animation:tremer 0.4s ease 3, separar 0.8s ease 1.2s forwards}
+@keyframes rachadura{to{stroke-dashoffset:0}} @keyframes tremer{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}} 
+@keyframes separar{0%{transform:translateX(0) scale(1);opacity:1} 100%{transform:translateX(-20px) scale(0.9) rotate(-3deg);opacity:0}}
+/* SOME DE VEZ */
+.box.sumir{opacity:0 !important; pointer-events:none; transform:scale(0) !important; transition:all 0.8s ease}
 .botoes{position:relative;height:70px;margin-top:20px}
 button{padding:14px 28px;border:none;border-radius:30px;font-weight:bold;font-size:16px;cursor:pointer}
 #sim{background:#ffc6ff;color:#2a0a2a;position:absolute;left:50%;transform:translateX(-80px);z-index:2}
@@ -33,24 +36,20 @@ button{padding:14px 28px;border:none;border-radius:30px;font-weight:bold;font-si
 .person img{width:85px;image-rendering:pixelated;filter:drop-shadow(0 0 8px rgba(255,255,255,.6));animation:quica .32s infinite alternate}
 @keyframes andar{0%{left:-140px}100%{left:115vw}} @keyframes quica{0%{transform:translateY(0)}100%{transform:translateY(-8px)}} @keyframes sumir{0%{opacity:1}100%{opacity:0}}
 #darkFountain{position:fixed;inset:0;z-index:5;display:none;place-items:center;background:black}
-#darkFountain.ativa{display:grid;animation:fadeIn 1s ease}
-#darkFountain img{width:100vw;height:100vh;object-fit:contain;max-width:600px;max-height:90vh;filter:drop-shadow(0 0 30px #8a2be2)}
+#darkFountain.ativa{display:grid}
+#darkFountain img{width:100vw;height:100vh;max-width:500px;max-height:90vh;object-fit:contain;filter:none;box-shadow:none;opacity:0}
+#darkFountain.ativa img{animation:fountainFadeIn 4s ease-out forwards}
+@keyframes fountainFadeIn{0%{opacity:0;transform:scale(0.9)}30%{opacity:0.3}100%{opacity:1;transform:scale(1)}}
 #darkText{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:15;color:#c8a0ff;font-size:22px;font-weight:bold;text-align:center;display:none;text-shadow:0 0 20px #8a2be2}
-#darkText.mostrar{display:block;animation:textoAparece 3s ease forwards}
-@keyframes textoAparece{0%{opacity:0}100%{opacity:1}} @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#darkText.mostrar{display:block;animation:textoAparece 2s ease 2s forwards;opacity:0}
+@keyframes textoAparece{0%{opacity:0}100%{opacity:1}}
 </style>
 </head>
 <body>
 <div id="stars"></div>
-
 <audio id="darkAudio" preload="auto" src="proceed.mp3"></audio>
-
-<div id="darkFountain">
-  <img src="fountain.gif" alt="dark fountain">
-</div>
-
+<div id="darkFountain"><img src="fountain.gif" alt="dark fountain"></div>
 <div id="darkText">A DARK FOUNTAIN SURGIU...<br><span style="font-size:14px;color:white">Você rachou a realidade...</span><br><button onclick="location.reload()" style="position:static;transform:none;margin-top:15px;background:white;color:black;padding:10px 20px;border-radius:20px">Tentar de novo ♡</button></div>
-
 <div class="box" id="mainBox">
 <div class="crack" id="crack"><div class="crack-glow"></div><svg viewBox="0 0 350 250" preserveAspectRatio="none"><path class="crack-line" d="M175 0 L170 20 L180 40 L165 60 L180 80 L170 100 L185 120 L175 140 L180 160 L165 180 L175 200 L170 220 L175 250" /></svg></div>
 <h1>Oi amor ♡</h1>
@@ -62,13 +61,11 @@ button{padding:14px 28px;border:none;border-radius:30px;font-weight:bold;font-si
 </div>
 <div id="final"><h1 style="font-size:28px">EU TE AMO!!! 💜</h1><p>O trio aprovou!</p></div>
 </div>
-
 <div class="trio" id="trio">
 <div class="person" style="--d:0s"><img src="Kris.png"></div>
 <div class="person" style="--d:1.2s"><img src="Ralsei.png"></div>
 <div class="person" style="--d:2.4s"><img src="Susie.png"></div>
 </div>
-
 <script>
 const starsContainer=document.getElementById('stars');
 for(let i=0;i<110;i++){let s=document.createElement('div');s.className='star';let sz=Math.random()*3+1.5;s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=Math.random()*100+'vw';s.style.animationDuration=(Math.random()*2+2)+'s';s.style.animationDelay=Math.random()*2.5+'s';starsContainer.appendChild(s)}
@@ -76,29 +73,28 @@ let naoCliques=0; let darkModeAtivo=false;
 const btnNao=document.getElementById('nao');
 const procederEl=document.getElementById('proceder');
 const audioEl=document.getElementById('darkAudio');
-
+const mainBox=document.getElementById('mainBox');
 function ativarDarkWorld(){
  if(darkModeAtivo) return; darkModeAtivo=true;
  procederEl.classList.remove('mostrar');
  document.body.classList.add('dark-world');
  document.getElementById('crack').classList.add('ativo');
- document.getElementById('mainBox').classList.add('rachado');
- document.querySelectorAll('.star').forEach((e,i)=>{setTimeout(()=>{e.style.animationPlayState='paused'; e.style.opacity='0.1'}, i*20)});
- audioEl.volume = 0.8;
- audioEl.play().catch(()=>{});
+ mainBox.classList.add('rachado');
+ document.querySelectorAll('.star').forEach((e,i)=>{setTimeout(()=>{e.style.animationPlayState='paused'; e.style.opacity='0'}, i*20)});
+ audioEl.volume=0.8; audioEl.play().catch(()=>{});
  document.getElementById('darkFountain').classList.add('ativa');
- setTimeout(()=>{document.getElementById('darkText').classList.add('mostrar')},2500);
+ // AGORA SOME DE VEZ DEPOIS DE RACHAR
+ setTimeout(()=>{
+   mainBox.classList.add('sumir');
+   setTimeout(()=>{ mainBox.style.display='none'; }, 800);
+ }, 1800);
+ setTimeout(()=>{document.getElementById('darkText').classList.add('mostrar')},3500);
  btnNao.style.display='none';
 }
 function fugir(e){
  e.preventDefault(); if(darkModeAtivo) return;
  naoCliques++;
- if(naoCliques===9){
-   procederEl.classList.add('mostrar');
-   btnNao.style.opacity='0.4';
-   document.getElementById('mainBox').style.borderColor='#8a2be2';
-   setTimeout(()=>procederEl.classList.remove('mostrar'),3000);
- }
+ if(naoCliques===9){procederEl.classList.add('mostrar'); btnNao.style.opacity='0.4'; setTimeout(()=>procederEl.classList.remove('mostrar'),3000);}
  if(naoCliques>=10){ativarDarkWorld(); return;}
  if(!btnNao.dataset.fixou){let r=btnNao.getBoundingClientRect();btnNao.style.position='fixed';btnNao.style.left=r.left+'px';btnNao.style.top=r.top+'px';btnNao.style.transform='none';btnNao.dataset.fixou='1';btnNao.offsetHeight}
  btnNao.style.left=Math.random()*(innerWidth-btnNao.offsetWidth-15)+5+'px';
