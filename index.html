@@ -9,21 +9,24 @@
   #stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
   .star{position:absolute;background:white;border-radius:50%;box-shadow:0 0 10px white;animation:cairGirando linear infinite}
   @keyframes cairGirando{
-    0%{transform:translateY(-20px) translateX(0) rotate(0deg);opacity:0}
-    15%{opacity:1}
-    85%{opacity:1}
+    0%{transform:translateY(-20px) rotate(0deg);opacity:0}
+    15%{opacity:1} 85%{opacity:1}
     100%{transform:translateY(110vh) translateX(80px) rotate(720deg);opacity:0}
   }
   .box{position:relative;z-index:5;background:rgba(30,20,45,0.85);border:1px solid rgba(255,180,255,0.5);padding:30px 20px;border-radius:20px;max-width:350px;width:85%;backdrop-filter:blur(12px);box-shadow:0 0 40px rgba(255,150,255,0.4);text-align:center}
   h1{color:#ffc6ff;margin:0 0 10px 0}
-  .pergunta{font-size:18px;margin:15px 0 25px 0;line-height:1.4}
-  .botoes{display:flex;justify-content:center;gap:20px;position:relative;min-height:50px}
+  .pergunta{font-size:18px;margin:15px 0 25px 0}
+  .botoes{display:flex;justify-content:center;gap:20px;min-height:50px}
   button{padding:14px 28px;border:none;border-radius:30px;font-weight:bold;font-size:16px;cursor:pointer;z-index:10}
-  #sim{background:#ffc6ff;color:#2a0a2a}
-  #nao{background:#2a2a3a;color:white;border:1px solid #666}
+  #sim{background:#ffc6ff;color:#2a0a2a;transition:0.2s}
+  #nao{
+    background:#2a2a3a;color:white;border:1px solid #666;
+    position:relative;
+    transition: all 0.4s ease; /* AQUI ESTÁ O DESLIZE */
+  }
   #final{display:none;margin-top:20px}
   .confete{position:fixed;top:-10px;width:10px;height:14px;animation:confeteCai 3s linear forwards;z-index:20}
-  @keyframes confeteCai{0%{transform:translateY(0) rotate(0deg)}100%{transform:translateY(100vh) rotate(720deg)}}
+  @keyframes confeteCai{to{transform:translateY(100vh) rotate(720deg)}}
 </style>
 </head>
 <body>
@@ -43,59 +46,57 @@
   <div id="final">
     <h1 style="font-size:30px;">EU TE AMO!!! 💜</h1>
     <p>Você fez a melhor escolha da sua vida!</p>
-    <p style="margin-top:15px;opacity:0.9">Obrigada por ficar comigo para sempre, meu amor!</p>
   </div>
 </div>
 
 <script>
-// 1. ESTRELINHAS GIRANDO INFINITO
+// ESTRELINHAS
 const starsContainer = document.getElementById('stars');
 for(let i=0;i<120;i++){
-  let s=document.createElement('div');
-  s.className='star';
-  let size = Math.random()*4+2;
-  s.style.width=size+'px';
-  s.style.height=size+'px';
-  s.style.left=Math.random()*100+'vw';
-  s.style.top=Math.random()*10-10+'vh';
-  s.style.animationDuration=(Math.random()*3+2)+'s';
-  s.style.animationDelay=Math.random()*3+'s';
-  if(Math.random()>0.6){
-    s.style.background='#ffc6ff';
-    s.style.boxShadow='0 0 10px #ffc6ff';
-  }
+  let s=document.createElement('div');s.className='star';
+  let size=Math.random()*4+2;s.style.width=size+'px';s.style.height=size+'px';
+  s.style.left=Math.random()*100+'vw';s.style.animationDuration=(Math.random()*3+2)+'s';s.style.animationDelay=Math.random()*3+'s';
+  if(Math.random()>0.6){s.style.background='#ffc6ff';s.style.boxShadow='0 0 10px #ffc6ff';}
   starsContainer.appendChild(s);
 }
 
-// 2. BOTÕES FUNCIONANDO
-const btnSim = document.getElementById('sim');
+// BOTÃO NÃO QUE DESLIZA E NÃO SOME
 const btnNao = document.getElementById('nao');
+let primeiraVez = true;
 
-function fugir(){
-  btnNao.style.position='fixed';
-  const x = Math.random()*(window.innerWidth-90);
-  const y = Math.random()*(window.innerHeight-50);
-  btnNao.style.left=x+'px';
-  btnNao.style.top=y+'px';
+function fugir(e){
+  if(e) e.preventDefault();
+  
+  // na primeira vez, vira fixed pra poder ir pra qualquer canto
+  if(primeiraVez){
+    const rect = btnNao.getBoundingClientRect();
+    btnNao.style.position = 'fixed';
+    btnNao.style.left = rect.left+'px';
+    btnNao.style.top = rect.top+'px';
+    primeiraVez = false;
+  }
+
+  // vai para canto aleatório com animação de deslize
+  const x = Math.random()*(window.innerWidth - 100);
+  const y = Math.random()*(window.innerHeight - 60);
+  btnNao.style.left = x+'px';
+  btnNao.style.top = y+'px';
 }
 
 btnNao.addEventListener('mouseover', fugir);
-btnNao.addEventListener('touchstart', function(e){ e.preventDefault(); fugir(); });
-btnNao.addEventListener('click', function(e){ e.preventDefault(); fugir(); });
+btnNao.addEventListener('touchstart', fugir, {passive:false});
+btnNao.addEventListener('click', fugir);
 
-btnSim.addEventListener('click', function(){
+// BOTÃO SIM
+document.getElementById('sim').addEventListener('click', function(){
   document.querySelector('.pergunta').style.display='none';
   document.getElementById('areaBotoes').style.display='none';
   document.getElementById('final').style.display='block';
-  
-  // confete
   for(let i=0;i<200;i++){
-    let c=document.createElement('div');
-    c.className='confete';
+    let c=document.createElement('div');c.className='confete';
     c.style.left=Math.random()*100+'vw';
-    c.style.background=['#ffc6ff','#ff8fab','#ffffff','#a78bfa','#f472b6'][Math.floor(Math.random()*5)];
+    c.style.background=['#ffc6ff','#ff8fab','#fff','#a78bfa'][Math.floor(Math.random()*4)];
     c.style.animationDelay=Math.random()*0.5+'s';
-    c.style.animationDuration=(Math.random()*2+2)+'s';
     document.body.appendChild(c);
     setTimeout(()=>c.remove(),4000);
   }
