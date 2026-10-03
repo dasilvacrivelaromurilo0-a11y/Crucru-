@@ -2,70 +2,91 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Suporte - Gmail</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gmail</title>
 <style>
-#fakeGmail{position:fixed;inset:0;z-index:100;background:#f6f8fc;display:flex;flex-direction:column;font-family:Roboto,Arial,sans-serif;transition:1s}
-#gmailHeader{background:white;border-bottom:1px solid #e0e0e0;padding:12px 20px;display:flex;align-items:center;gap:10px}
-#gmailBody{flex:1;display:grid;place-items:center;padding:20px}
-#card{background:white;border:1px solid #dadce0;border-radius:12px;padding:40px 30px;max-width:400px;width:100%;text-align:center}
-#secretBtn{background:#1a73e8;color:white;border:none;padding:12px 30px;border-radius:24px;cursor:pointer}
-#madeByLove{margin-top:20px;font-size:11px;color:#9aa0a6;letter-spacing:3px;text-transform:uppercase}
-body{margin:0;background:black;overflow:hidden}
-#videoWrap{position:fixed;inset:0;display:none;background:black;place-items:center}
-#lakeVideo{width:100%;height:100%;object-fit:contain;background:black;transition:transform 1.5s ease}
-#proceedBtn{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:50;background:black;color:#ffeb3b;border:2px solid #ffeb3b;padding:12px 35px;font-family:monospace;letter-spacing:5px;font-size:18px;cursor:pointer;display:none}
-#progress{position:fixed;top:20px;left:0;right:0;z-index:50;color:#b388ff;font-family:monospace;font-size:14px;letter-spacing:4px;text-align:center;display:none}
-#tapToPlay{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:rgba(0,0,0,.9);color:white;font-family:monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;font-family:Roboto,sans-serif}
+#fake{position:fixed;inset:0;z-index:10;background:#f6f8fc;transition:1s}
+#top{background:#fff;padding:12px 16px;border-bottom:1px solid #dadce0;display:flex;align-items:center;gap:10px;font-size:14px}
+#card{max-width:380px;margin:90px auto;background:#fff;padding:32px;border-radius:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#go{background:#1a73e8;color:#fff;border:0;padding:12px 28px;border-radius:24px;font-size:15px;cursor:pointer}
+#made{margin-top:28px;font-size:9px;letter-spacing:5px;opacity:.35}
+#stage{position:fixed;inset:0;background:#000;display:none;place-items:center}
+#stage video{width:100%;height:100%;object-fit:cover;transition:transform 1.8s cubic-bezier(.4,0,.2,1)}
+#prog{position:fixed;top:18px;left:0;right:0;text-align:center;color:#c7a3ff;font-family:monospace;letter-spacing:6px;font-size:13px;z-index:5;display:none;text-shadow:0 0 10px #a855f7}
+#proc{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:6;background:#000;color:#ffeb3b;border:2px solid #ffeb3b;padding:12px 42px;letter-spacing:6px;font-size:13px;display:none;cursor:pointer;box-shadow:0 0 15px rgba(255,235,59,.4)}
+#proc:active{transform:translateX(-50%) scale(0.95)}
 </style>
 </head>
 <body>
 
-<div id="fakeGmail">
-  <div id="gmailHeader"><img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" width="28"><span>Gmail - Suporte</span></div>
-  <div id="gmailBody">
-    <div id="card">
-      <h2>Central de Ajuda</h2>
-      <button id="secretBtn">suporte ao gmail</button>
-      <div id="madeByLove">Made by love</div>
-    </div>
+<div id="fake">
+  <div id="top"><img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" width="20"> Gmail - Suporte</div>
+  <div id="card">
+    <h3 style="font-weight:400;margin-bottom:8px">Central de Ajuda</h3>
+    <p style="font-size:13px;color:#5f6368;margin-bottom:24px">Precisa de ajuda com sua conta?</p>
+    <button id="go">suporte ao gmail</button>
+    <div id="made">MADE BY LOVE</div>
   </div>
 </div>
 
-<div id="videoWrap">
-  <video id="lakeVideo" src="https://files.catbox.moe/2gaflw.mp4" playsinline muted loop preload="auto"></video>
+<div id="stage">
+  <video id="vid" src="https://files.catbox.moe/2gaflw.mp4" playsinline loop></video>
+  <audio id="aud" src="proceed.mp3" loop></audio>
 </div>
-<div id="progress">PROCEED: 0 / 4</div>
-<button id="proceedBtn">♥ PROCEED</button>
-<div id="tapToPlay"><div style="text-align:center"><p>TOQUE PARA COMEÇAR ♡</p><button onclick="startVideo()" style="padding:12px 30px">PLAY</button></div></div>
+
+<div id="prog">PROCEED: 0 / 4</div>
+<button id="proc">♥ PROCEED</button>
 
 <script>
-const fakeGmail=document.getElementById('fakeGmail');
-const secretBtn=document.getElementById('secretBtn');
-const videoWrap=document.getElementById('videoWrap');
-const video=document.getElementById('lakeVideo');
-const btn=document.getElementById('proceedBtn');
-const progress=document.getElementById('progress');
-const tap=document.getElementById('tapToPlay');
+const fake=document.getElementById('fake');
+const stage=document.getElementById('stage');
+const vid=document.getElementById('vid');
+const aud=document.getElementById('aud');
+const go=document.getElementById('go');
+const btn=document.getElementById('proc');
+const prog=document.getElementById('prog');
 
-function startVideo(){tap.style.display='none';video.muted=false;video.play();}
-secretBtn.onclick=()=>{
-  fakeGmail.style.filter='blur(20px) brightness(0)'; 
-  setTimeout(()=>{fakeGmail.style.display='none'; videoWrap.style.display='grid'; progress.style.display='block'; tap.style.display='grid'; video.load(); video.play().catch(()=>tap.style.display='grid');},800);
-}
-let step=0; const zooms=[1,1.3,1.8,2.6,4];
-video.ontimeupdate=()=>{
-  if((video.currentTime>15&&video.currentTime<19)||(video.currentTime>44&&video.currentTime<48)||(video.currentTime>54&&video.currentTime<58)||(video.currentTime>95&&video.currentTime<105)){
+go.onclick=()=>{
+  fake.style.filter='blur(25px)';
+  fake.style.opacity='0';
+  setTimeout(()=>{
+    fake.style.display='none';
+    stage.style.display='grid';
+    prog.style.display='block';
     btn.style.display='block';
-  }
-}
+    vid.play().catch(()=>{});
+    aud.play().catch(()=>{});
+  },700);
+};
+
+let s=0;
+const zooms=[1,1.5,2.3,3.4,5.5];
 btn.onclick=()=>{
-  step++; progress.textContent=`PROCEED: ${step} / 4`;
-  video.style.transform=`scale(${zooms[step]})`;
-  btn.style.display='none';
-  if(step>=4){setTimeout(()=>{document.body.innerHTML='<div style=display:grid;place-items:center;height:100vh;background:black;color:white;font-family:Arial;text-align:center><h1>Oi amor ♡<br>Você vai ficar comigo para sempre?</h1></div>'},2000);}
-}
-video.onerror=()=>{alert('Erro no vídeo. Tenta recarregar. Link: '+video.src)}
+  s++;
+  prog.textContent=`PROCEED: ${s} / 4`;
+  vid.style.transform=`scale(${zooms[s]})`;
+  if(navigator.vibrate) navigator.vibrate(80);
+  if(s>=4){
+    btn.style.display='none';
+    prog.textContent='PROCEED: 4 / 4';
+    setTimeout(()=>{
+      document.body.innerHTML=`
+      <div style="height:100vh;display:grid;place-items:center;background:radial-gradient(ellipse at center,#1a1a2e 0%,#000 70%);color:white;text-align:center;padding:20px;font-family:sans-serif;animation:fade 1s">
+        <div>
+          <img src="Noelle.png" style="width:120px;border-radius:50%;box-shadow:0 0 30px rgba(200,150,255,.6);margin-bottom:20px">
+          <h1 style="font-weight:300;letter-spacing:2px">Para meu crucru favorito ♡</h1>
+          <p style="margin-top:20px;opacity:.8;line-height:1.6">Você é minha rota Snowgrave favorita.<br>Você vai ficar comigo pra sempre?</p>
+          <div style="margin-top:30px;display:flex;gap:15px;justify-content:center">
+            <button onclick="alert('EU SABIA ♡♡♡')" style="background:#ffeb3b;border:0;padding:12px 30px;border-radius:30px;letter-spacing:2px;cursor:pointer">SIM</button>
+            <button onclick="alert('Não tem como dizer não :3')" style="background:transparent;color:white;border:1px solid white;padding:12px 30px;border-radius:30px;letter-spacing:2px;cursor:pointer">CLARO QUE SIM</button>
+          </div>
+        </div>
+      </div>`;
+    },1800);
+  }
+};
 </script>
 </body>
 </html>
