@@ -8,20 +8,15 @@
 #fakeGmail{position:fixed;inset:0;z-index:100;background:#f6f8fc;display:flex;flex-direction:column;font-family:Roboto,Arial,sans-serif;transition:1s}
 #gmailHeader{background:white;border-bottom:1px solid #e0e0e0;padding:12px 20px;display:flex;align-items:center;gap:10px}
 #gmailBody{flex:1;display:grid;place-items:center;padding:20px}
-#card{background:white;border:1px solid #dadce0;border-radius:12px;padding:40px 30px;max-width:400px;width:100%;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.1)}
-#secretBtn{background:#1a73e8;color:white;border:none;padding:12px 30px;border-radius:24px;cursor:pointer;font-size:14px}
-#madeByLove{margin-top:20px;font-size:11px;color:#9aa0a6;letter-spacing:3px;text-transform:uppercase;opacity:.6}
-body{margin:0;background:black;overflow:hidden;height:100vh}
-#videoWrap{position:fixed;inset:0;display:none;background:black;place-items:center;overflow:hidden}
-#lakeVideo{width:100%;height:100%;object-fit:contain;transition:transform 1.5s cubic-bezier(.77,0,.175,1)}
-#proceedBtn{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:20;background:black;color:#ffeb3b;border:2px solid #ffeb3b;padding:12px 35px;font-family:monospace;letter-spacing:5px;font-size:18px;cursor:pointer;display:none;box-shadow:0 0 20px #ffeb3b;animation:pisca 1s infinite}
-@keyframes pisca{0%,50%{opacity:1}51%,100%{opacity:.5}}
-#progress{position:fixed;top:15px;left:50%;transform:translateX(-50%);z-index:20;color:#c8a0ff;font-family:monospace;font-size:11px;letter-spacing:3px;display:none}
-#darkFountain{position:fixed;inset:0;z-index:30;display:none;place-items:center;background:black}
-#darkFountain.ativa{display:grid}
-#darkFountain img{width:100vw;height:100vh;max-width:500px;object-fit:contain;animation:fadeIn 3s forwards}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-#finalBox{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:40;background:rgba(30,20,45,.95);border:1px solid #ffb4ff;padding:30px;border-radius:20px;text-align:center;color:white;display:none;font-family:Arial}
+#card{background:white;border:1px solid #dadce0;border-radius:12px;padding:40px 30px;max-width:400px;width:100%;text-align:center}
+#secretBtn{background:#1a73e8;color:white;border:none;padding:12px 30px;border-radius:24px;cursor:pointer}
+#madeByLove{margin-top:20px;font-size:11px;color:#9aa0a6;letter-spacing:3px;text-transform:uppercase}
+body{margin:0;background:black;overflow:hidden}
+#videoWrap{position:fixed;inset:0;display:none;background:black;place-items:center}
+#lakeVideo{width:100%;height:100%;object-fit:contain;background:black;transition:transform 1.5s ease}
+#proceedBtn{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:50;background:black;color:#ffeb3b;border:2px solid #ffeb3b;padding:12px 35px;font-family:monospace;letter-spacing:5px;font-size:18px;cursor:pointer;display:none}
+#progress{position:fixed;top:20px;left:0;right:0;z-index:50;color:#b388ff;font-family:monospace;font-size:14px;letter-spacing:4px;text-align:center;display:none}
+#tapToPlay{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:rgba(0,0,0,.9);color:white;font-family:monospace}
 </style>
 </head>
 <body>
@@ -30,20 +25,19 @@ body{margin:0;background:black;overflow:hidden;height:100vh}
   <div id="gmailHeader"><img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" width="28"><span>Gmail - Suporte</span></div>
   <div id="gmailBody">
     <div id="card">
-      <h2 style="font-weight:400">Central de Ajuda</h2>
-      <p style="color:#5f6368;font-size:14px">Precisa de ajuda com sua conta?</p>
+      <h2>Central de Ajuda</h2>
       <button id="secretBtn">suporte ao gmail</button>
       <div id="madeByLove">Made by love</div>
     </div>
   </div>
 </div>
 
-<div id="videoWrap"><video id="lakeVideo" src="https://files.catbox.moe/2gaflw.mp4" playsinline></video></div>
+<div id="videoWrap">
+  <video id="lakeVideo" src="https://files.catbox.moe/2gaflw.mp4" playsinline muted loop preload="auto"></video>
+</div>
 <div id="progress">PROCEED: 0 / 4</div>
 <button id="proceedBtn">♥ PROCEED</button>
-<div id="darkFountain"><img src="fountain.gif"></div>
-<div id="finalBox"><h1>Oi amor ♡</h1><p>Você vai ficar comigo para sempre? 🥺</p><button id="simBtn" style="background:#ffc6ff;border:none;padding:12px 25px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:15px">SIM ♡</button></div>
-<audio id="sfx" src="proceed.mp3"></audio>
+<div id="tapToPlay"><div style="text-align:center"><p>TOQUE PARA COMEÇAR ♡</p><button onclick="startVideo()" style="padding:12px 30px">PLAY</button></div></div>
 
 <script>
 const fakeGmail=document.getElementById('fakeGmail');
@@ -52,33 +46,26 @@ const videoWrap=document.getElementById('videoWrap');
 const video=document.getElementById('lakeVideo');
 const btn=document.getElementById('proceedBtn');
 const progress=document.getElementById('progress');
-const sfx=document.getElementById('sfx');
-const fountain=document.getElementById('darkFountain');
-const finalBox=document.getElementById('finalBox');
+const tap=document.getElementById('tapToPlay');
 
+function startVideo(){tap.style.display='none';video.muted=false;video.play();}
 secretBtn.onclick=()=>{
-  fakeGmail.style.filter='blur(20px) brightness(0)'; fakeGmail.style.transform='scale(1.4)';
-  setTimeout(()=>{fakeGmail.style.display='none'; videoWrap.style.display='grid'; progress.style.display='block'; video.play();},1000);
+  fakeGmail.style.filter='blur(20px) brightness(0)'; 
+  setTimeout(()=>{fakeGmail.style.display='none'; videoWrap.style.display='grid'; progress.style.display='block'; tap.style.display='grid'; video.load(); video.play().catch(()=>tap.style.display='grid');},800);
 }
-let step=0;
-const zooms=[1,1.2,1.6,2.4,3.8];
+let step=0; const zooms=[1,1.3,1.8,2.6,4];
 video.ontimeupdate=()=>{
   if((video.currentTime>15&&video.currentTime<19)||(video.currentTime>44&&video.currentTime<48)||(video.currentTime>54&&video.currentTime<58)||(video.currentTime>95&&video.currentTime<105)){
     btn.style.display='block';
-  }else{if(step<4) btn.style.display='none';}
-  if(video.currentTime>125){
-    videoWrap.style.display='none'; progress.style.display='none'; btn.style.display='none';
-    fountain.classList.add('ativa'); fountain.style.display='grid';
-    setTimeout(()=>{fountain.style.display='none'; finalBox.style.display='block';},3500);
   }
 }
 btn.onclick=()=>{
-  sfx.currentTime=0; sfx.play().catch(()=>{}); step++;
-  progress.textContent=`PROCEED: ${step} / 4`;
+  step++; progress.textContent=`PROCEED: ${step} / 4`;
   video.style.transform=`scale(${zooms[step]})`;
-  video.play(); btn.style.display='none';
+  btn.style.display='none';
+  if(step>=4){setTimeout(()=>{document.body.innerHTML='<div style=display:grid;place-items:center;height:100vh;background:black;color:white;font-family:Arial;text-align:center><h1>Oi amor ♡<br>Você vai ficar comigo para sempre?</h1></div>'},2000);}
 }
-document.getElementById('simBtn').onclick=()=>{finalBox.innerHTML='<h1>EU TE AMO!!! 💜</h1><p>O trio aprovou! (Noelle & Kris no lago)</p>'}
+video.onerror=()=>{alert('Erro no vídeo. Tenta recarregar. Link: '+video.src)}
 </script>
 </body>
 </html>
