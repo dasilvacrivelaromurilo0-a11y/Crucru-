@@ -1,92 +1,218 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gmail</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para meu garoto especial</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;overflow:hidden;font-family:Roboto,sans-serif}
-#fake{position:fixed;inset:0;z-index:10;background:#f6f8fc;transition:1s}
-#top{background:#fff;padding:12px 16px;border-bottom:1px solid #dadce0;display:flex;align-items:center;gap:10px;font-size:14px}
-#card{max-width:380px;margin:90px auto;background:#fff;padding:32px;border-radius:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-#go{background:#1a73e8;color:#fff;border:0;padding:12px 28px;border-radius:24px;font-size:15px;cursor:pointer}
-#made{margin-top:28px;font-size:9px;letter-spacing:5px;opacity:.35}
-#stage{position:fixed;inset:0;background:#000;display:none;place-items:center}
-#stage video{width:100%;height:100%;object-fit:cover;transition:transform 1.8s cubic-bezier(.4,0,.2,1)}
-#prog{position:fixed;top:18px;left:0;right:0;text-align:center;color:#c7a3ff;font-family:monospace;letter-spacing:6px;font-size:13px;z-index:5;display:none;text-shadow:0 0 10px #a855f7}
-#proc{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:6;background:#000;color:#ffeb3b;border:2px solid #ffeb3b;padding:12px 42px;letter-spacing:6px;font-size:13px;display:none;cursor:pointer;box-shadow:0 0 15px rgba(255,235,59,.4)}
-#proc:active{transform:translateX(-50%) scale(0.95)}
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;500&display=swap');
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #ffafc8;
+    background: radial-gradient(circle, #ffc2d1 0%, #ff8fab 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+  }
+
+  h1 {
+    font-family: 'Dancing Script', cursive;
+    color: #fff;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  .container {
+    position: relative;
+    width: 340px;
+    height: 260px;
+    cursor: pointer;
+  }
+
+  .envelope {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 220px;
+    background: #fff;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    z-index: 2;
+  }
+
+  .envelope-front {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 170px solid #ff8fab;
+    border-right: 170px solid #fb6f92;
+    border-bottom: 115px solid #ff4d6d;
+    border-top: 115px solid transparent;
+    border-radius: 0 0 12px 12px;
+    z-index: 4;
+  }
+
+  .flap {
+    position: absolute;
+    top: -2px;
+    width: 0;
+    height: 0;
+    border-left: 170px solid transparent;
+    border-right: 170px solid transparent;
+    border-top: 130px solid #ff4d6d;
+    transform-origin: top;
+    transition: transform 0.6s ease;
+    z-index: 3;
+  }
+
+  .container.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+  }
+
+  .letter {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    background: #fffdf7;
+    border-radius: 10px;
+    padding: 25px 22px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: all 0.8s ease 0.3s;
+    z-index: 2;
+    opacity: 0;
+  }
+
+  .container.open .letter {
+    transform: translateX(-50%) translateY(-160px);
+    height: 420px;
+    opacity: 1;
+    z-index: 5;
+    overflow-y: auto;
+  }
+
+  .letter p {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: #5a2a3a;
+    white-space: pre-line;
+    margin: 0;
+  }
+
+  .heart-btn {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: #ff4d6d;
+    border: none;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: white;
+    box-shadow: 0 8px 20px rgba(255,77,109,0.5);
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+    transition: transform 0.3s;
+  }
+
+  .heart-btn:hover { transform: translate(-50%, -50%) scale(1.1); }
+
+  .container.open .heart-btn { display: none; }
+
+  @keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+  }
+
+  .click-text {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: rgba(255,255,255,0.9);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #ff4d6d;
+    font-weight: 500;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .container.open .click-text { display: none; }
 </style>
 </head>
 <body>
 
-<div id="fake">
-  <div id="top"><img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" width="20"> Gmail - Suporte</div>
-  <div id="card">
-    <h3 style="font-weight:400;margin-bottom:8px">Central de Ajuda</h3>
-    <p style="font-size:13px;color:#5f6368;margin-bottom:24px">Precisa de ajuda com sua conta?</p>
-    <button id="go">suporte ao gmail</button>
-    <div id="made">MADE BY LOVE</div>
+<h1>para meu garoto especial</h1>
+
+<div class="container" id="container" onclick="openLetter()">
+  <div class="flap"></div>
+  <div class="envelope"></div>
+  <div class="envelope-front"></div>
+  
+  <button class="heart-btn">❤</button>
+  <div class="click-text">clique para abrir</div>
+
+  <div class="letter">
+    <p>Obrigado por fazer minha vida tão feliz. Desde que você chegou, tudo ficou mais leve e mais bonito.
+
+Você é a pessoa mais legal, mais incrível e mais especial que eu já conheci em toda a minha vida. De verdade.
+
+Essa carta é tão pequena perto de tudo que você merece. Você merece o mundo, merece todo amor, todo carinho e toda felicidade que existe.
+
+Obrigado por existir.</p>
   </div>
 </div>
 
-<div id="stage">
-  <video id="vid" src="https://files.catbox.moe/2gaflw.mp4" playsinline loop></video>
-  <audio id="aud" src="proceed.mp3" loop></audio>
-</div>
-
-<div id="prog">PROCEED: 0 / 4</div>
-<button id="proc">♥ PROCEED</button>
-
 <script>
-const fake=document.getElementById('fake');
-const stage=document.getElementById('stage');
-const vid=document.getElementById('vid');
-const aud=document.getElementById('aud');
-const go=document.getElementById('go');
-const btn=document.getElementById('proc');
-const prog=document.getElementById('prog');
-
-go.onclick=()=>{
-  fake.style.filter='blur(25px)';
-  fake.style.opacity='0';
-  setTimeout(()=>{
-    fake.style.display='none';
-    stage.style.display='grid';
-    prog.style.display='block';
-    btn.style.display='block';
-    vid.play().catch(()=>{});
-    aud.play().catch(()=>{});
-  },700);
-};
-
-let s=0;
-const zooms=[1,1.5,2.3,3.4,5.5];
-btn.onclick=()=>{
-  s++;
-  prog.textContent=`PROCEED: ${s} / 4`;
-  vid.style.transform=`scale(${zooms[s]})`;
-  if(navigator.vibrate) navigator.vibrate(80);
-  if(s>=4){
-    btn.style.display='none';
-    prog.textContent='PROCEED: 4 / 4';
-    setTimeout(()=>{
-      document.body.innerHTML=`
-      <div style="height:100vh;display:grid;place-items:center;background:radial-gradient(ellipse at center,#1a1a2e 0%,#000 70%);color:white;text-align:center;padding:20px;font-family:sans-serif;animation:fade 1s">
-        <div>
-          <img src="Noelle.png" style="width:120px;border-radius:50%;box-shadow:0 0 30px rgba(200,150,255,.6);margin-bottom:20px">
-          <h1 style="font-weight:300;letter-spacing:2px">Para meu crucru favorito ♡</h1>
-          <p style="margin-top:20px;opacity:.8;line-height:1.6">Você é minha rota Snowgrave favorita.<br>Você vai ficar comigo pra sempre?</p>
-          <div style="margin-top:30px;display:flex;gap:15px;justify-content:center">
-            <button onclick="alert('EU SABIA ♡♡♡')" style="background:#ffeb3b;border:0;padding:12px 30px;border-radius:30px;letter-spacing:2px;cursor:pointer">SIM</button>
-            <button onclick="alert('Não tem como dizer não :3')" style="background:transparent;color:white;border:1px solid white;padding:12px 30px;border-radius:30px;letter-spacing:2px;cursor:pointer">CLARO QUE SIM</button>
-          </div>
-        </div>
-      </div>`;
-    },1800);
+  let opened = false;
+  function openLetter() {
+    if(!opened){
+      document.getElementById('container').classList.add('open');
+      opened = true;
+      // confete
+      for(let i=0;i<20;i++){
+        setTimeout(()=>{
+          const conf = document.createElement('div');
+          conf.innerHTML = '💖';
+          conf.style.position='absolute';
+          conf.style.left=Math.random()*100+'vw';
+          conf.style.top='-20px';
+          conf.style.fontSize='20px';
+          conf.style.animation='fall 3s linear';
+          document.body.appendChild(conf);
+          setTimeout(()=>conf.remove(),3000);
+        }, i*100)
+      }
+    }
   }
-};
 </script>
+
+<style>
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(360deg); }
+}
+</style>
+
 </body>
 </html>
